@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>
-      <%= title =%>
+      <%=title %>
       </title>
     </head>
   <body>
-    <% for (var i in messages) { %>
-      <div class="flass"><%= message[i] %></div>
+    <% for(var i in messages) { %>
+      <div class="flash"><%=messages[i] %></div>
       <% } %>
   <form action="/signin" method="post">    
     <div>
@@ -22,5 +22,7 @@
       <input type="submit" value="Sign up"/>
     </div>
   </form>
+  <a href="/oauth/facebook/">Sign in with Facebook</a>
+  <a href="/oauth/twitter/">Sign in with Twitter</a>  
 </body>
-<html>
+</html>

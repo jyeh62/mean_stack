@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var crypto = require('crypto');
 
 function websiteUrl(url){
   console.log("webSiteUrl :: ");
@@ -68,7 +69,7 @@ UserSchema.virtual('fullName').get(function(){
   });
 
 UserSchema.set('toJson', { getters: true, virtual: true });
-UserSchema.post('save', function(next){
+UserSchema.pre('save', function(next){
   if(this.isNew){
     console.log('A new user was create');
   }
@@ -76,17 +77,22 @@ UserSchema.post('save', function(next){
     console.log('A user updated is details.');
   }
   if(this.password){
-    this.salt = new Buffer(crypto.randomByte(16).toString('base64'));
+    this.salt = new Buffer(crypto.randomBytes(16).toString('base64')).toString('base64');;
     this.password = this.hashPassword(this.password);
   }
   next();
 });
 
 UserSchema.methods.hashPassword = function(password){
+  //if(this.salt)
+  console.log("hashPassword : password = " + password);
+  {
   return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
+    }
+  return false;
   };
 
-UserSchema.methos.authenticate = function(password){
+UserSchema.methods.authenticate = function(password){
   return this.password === this.hashPassword(password);
   };
 

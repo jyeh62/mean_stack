@@ -158,4 +158,45 @@ exports.search = function (req, res, next) {
   });
 }
 
+exports.saveOAuthUserProfile = function(req, profile, done){
+  User.findOne({
+    provider: profile.provider,
+    provderId: profile.providerId
+  }, function(err, user){
+        
+    if(err){
+      return done(err);
+    }
+    else{
+      if(!user){
+        var possibleUsername = profile.username || ((profile.email) ?profile.email.split('@')[0]:'');
+
+        User.findUniqueUserName(possibleUsername, null, function(availbleUsername){
+          profile.username = availbleUsername;
+          user = new User(profile);
+          user.save(function(err){
+            if(err){
+              var message = _this.getErrorMessage(err);
+              req.flash('error', message);
+              return res.redirect('/signup');
+            }
+            return done(err, user);
+          });
+        });
+      }
+      else{
+        return done(err, user);
+      }
+    }
+  });
+};   
+
+exports.requireLogin = function(req, res, next){
+  if(!req.isAuthenticated()){
+    return res.status(401).send({
+      message: 'User is not logged in'
+    });
+  }
+  next();
+};
 
