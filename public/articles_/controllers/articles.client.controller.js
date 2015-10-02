@@ -29,7 +29,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$routePa
 
   $scope.update=function(){
     console.log("update : " + $scope.article.title + ", content = " + $scope.article.content);
-    $scope.article.$updated(function(){
+    $scope.article.$update(function(){
       //$location.path('articles/'+$scope.article._id);
       $location.path('articles');
     }, function(errorResponse){

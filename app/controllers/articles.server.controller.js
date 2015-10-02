@@ -61,12 +61,12 @@ exports.read = function(req, res){
 };
 
 exports.update = function(req, res){
-  console.log("-------update : " + article.title + ", content = " + article.content);
+  
   var article = req.article;
 
   article.title = req.body.title;
   article.content = req.body.content;
-
+console.log("-------update : " + article.title + ", content = " + article.content);
   article.save(function(err){
     if(err){
       return res.status(400).send({

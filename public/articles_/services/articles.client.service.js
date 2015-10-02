@@ -3,10 +3,10 @@ angular.module('articles').factory('Articles', ['$resource', function($resouce){
     articleId: '@_id'
   }, {
     update: {
-      methos: 'put'
+      method: 'put'
       },
     updated: {
-      methos: 'post'
+      method: 'post'
       }    
   });                  
 }]);                 
