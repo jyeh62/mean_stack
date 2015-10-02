@@ -40,9 +40,10 @@ exports.list = function(req, res){
       res.json(articles);
     }
   });
-}
+};
       
 exports.articleById = function(req, res, next, id){
+  console.log("articleById = " + id);
   Article.findById(id).populate('creator', 'firtName lastName fullName').exec(function(err, article){
     if(err){
       return next(err);
@@ -55,11 +56,12 @@ exports.articleById = function(req, res, next, id){
   });
 };
 
-exports.read = function(req, res){
+exports.read = function(req, res){  
   res.json(req.article);
 };
 
 exports.update = function(req, res){
+  console.log("-------update : " + article.title + ", content = " + article.content);
   var article = req.article;
 
   article.title = req.body.title;
@@ -93,6 +95,7 @@ exports.delete = function(req, res){
 };
 
 exports.hasAuthorization = function(req, res, next){
+  console.log("**hasAuthorization**");
   if(req.article.creator.id !== req.user.id){
     return res.status(403).send({
       message: 'User is not authorized'
