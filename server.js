@@ -5,10 +5,17 @@ var db = mongoose();
 var passport = require('./config/passport');
 
 var express = require('./config/express.js');
-var app =  express();
+console.log('before express loding..');
+
+var app =  express(db);
 passport = passport();
-
-app.listen(3000);
 module.exports = app;
+app.listen(3000);
+console.log('Server running at http://localhost:3000');  
 
-console.log('Server running at http://localhost:3000');
+
+
+
+
+                 
+
